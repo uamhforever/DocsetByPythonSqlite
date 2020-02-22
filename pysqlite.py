@@ -12,6 +12,20 @@ def create_table(database_filepath, table_name):  # 新建表
     print('新建表完成！')
 
 
+def search_database(database_filepath):  # 查询表
+    conn = sqlite3.connect(database_filepath)
+    cursor = conn.cursor()
+    # SELECT tbl_name FROM sqlite_master WHERE type = 'table';
+    sql = "SELECT tbl_name FROM sqlite_master WHERE type = 'table'"
+    results = cursor.execute(sql)
+    results_all = results.fetchall()
+    for r in results_all:
+        print(r)
+    cursor.close()
+    conn.close()
+    print('查询数据库完成！')
+
+
 def search_table(database_filepath, table_name):  # 查询表
     conn = sqlite3.connect(database_filepath)
     cursor = conn.cursor()
@@ -107,7 +121,7 @@ def find_data(database_filepath, table_name, search_id, search_data):  # 查找�
 
 
 if __name__ == '__main__':
-    database_filepath = 'docSet.dsidx'
+    database_filepath = 'docSet.tokencache'
     table_name = 'searchIndex'
     search_id = 'type'
     search_data = 'Statement'
@@ -123,11 +137,14 @@ if __name__ == '__main__':
     #             "Statement", "path2", "fragment2")
 
     print('-'*20)
-    search_table(database_filepath, table_name)
+    search_database(database_filepath)
 
-    print('-'*20)
+    # print('-'*20)
+    # search_table(database_filepath, table_name)
+
+    # print('-'*20)
     # # search_data(database_filepath, table_name, search_date)
-    search_data_by_id(database_filepath, table_name, search_id, search_data)
+    # search_data_by_id(database_filepath, table_name, search_id, search_data)
 
     # print('-'*20)
     # delete_data_by_id(database_filepath, table_name, "type", "Statement")
